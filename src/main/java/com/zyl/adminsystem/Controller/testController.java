@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class testController {
@@ -25,6 +23,6 @@ public class testController {
     public Object testController(){
         System.out.println("进入Controller");
         List<sys_user> userList = userRepository.findAll();
-        return userList;
+        return "test";
     }
 }
