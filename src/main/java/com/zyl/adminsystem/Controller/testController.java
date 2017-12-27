@@ -2,6 +2,7 @@ package com.zyl.adminsystem.Controller;
 
 import com.zyl.adminsystem.Config.AuthType;
 import com.zyl.adminsystem.Config.RequestType;
+import com.zyl.adminsystem.Entity.sys_role;
 import com.zyl.adminsystem.Entity.sys_user;
 import com.zyl.adminsystem.Repository.UserRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ public class testController {
     public Object testController(){
         System.out.println("进入Controller");
         List<sys_user> userList = userRepository.findAll();
+        List<sys_role> roleList = userList.get(0).getRoles();
         return "test";
     }
 }
