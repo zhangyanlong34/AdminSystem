@@ -12,19 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("校验Auth");
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        String controllerName = handlerMethod.getMethod().getDeclaringClass().getName();
-        System.out.println("处理类"+controllerName.substring(controllerName.lastIndexOf('.')+1));
-        RequestType requestType = handlerMethod.getMethodAnnotation(RequestType.class);
-        System.out.println("requestType"+requestType.value());
-        String role = request.getParameter("role");
-        int permission = 11;
-        boolean result = AuthTools.getAuth(permission,requestType.value());
-        if(!result){
-            response.setStatus(401);
+        if(!request.getRequestURI().contains("/user/login") && !request.getRequestURI().contains("/user/info")) {
+            System.out.println("校验Auth");
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            String controllerName = handlerMethod.getMethod().getDeclaringClass().getName();
+            System.out.println("处理类" + controllerName.substring(controllerName.lastIndexOf('.') + 1));
+            RequestType requestType = handlerMethod.getMethodAnnotation(RequestType.class);
+            System.out.println("requestType" + requestType.value());
+            String role = request.getParameter("role");
+            int permission = 11;
+            boolean result = AuthTools.getAuth(permission, requestType.value());
+            if (!result) {
+                response.setStatus(401);
+            }
+            return result;
+        }else{
+            return true;
         }
-        return result;
     }
 
     @Override

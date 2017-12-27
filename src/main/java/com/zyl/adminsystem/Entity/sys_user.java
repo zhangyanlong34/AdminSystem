@@ -15,6 +15,9 @@ public class sys_user {
     @Column
     private String name;
 
+    @Column
+    private String password;
+
     @ManyToMany
     @JoinTable(name="sys_user_role",
                joinColumns = @JoinColumn(name="user_id",referencedColumnName = "id"),
@@ -43,5 +46,13 @@ public class sys_user {
 
     public void setRoles(List<sys_role> roles) {
         this.roles = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

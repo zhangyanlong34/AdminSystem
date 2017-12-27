@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends JpaRepository<sys_user,Integer> {
 
-
+    sys_user findAllByName(String name);
 }
