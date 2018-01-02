@@ -19,7 +19,10 @@ public class AuthInterceptor implements HandlerInterceptor {
             System.out.println("处理类" + controllerName.substring(controllerName.lastIndexOf('.') + 1));
             RequestType requestType = handlerMethod.getMethodAnnotation(RequestType.class);
             System.out.println("requestType" + requestType.value());
-            String role = request.getParameter("role");
+            String role = request.getAttribute("role_id").toString();
+            if("1".equals(role)){
+                return true;
+            }
             int permission = 11;
             boolean result = AuthTools.getAuth(permission, requestType.value());
             if (!result) {

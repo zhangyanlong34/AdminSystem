@@ -1,5 +1,6 @@
 package com.zyl.adminsystem.Controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zyl.adminsystem.Common.ResponseMessage;
@@ -12,6 +13,8 @@ import com.zyl.adminsystem.Tools.JwtTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,5 +57,21 @@ public class UserController {
         jsonObject.put("name",map.get("username").toString());
         jsonObject.put("role","admin");
         return ResponseMessage.buildSuccessMessage(jsonObject);
+    }
+
+    @RequestType(AuthType.SELECT)
+    @RequestMapping("/findAll")
+    @ResponseBody
+    public Object findAllPermission(){
+        List<sys_user> list = userService.findAll();
+        List<Map> mapList = new ArrayList<Map>();
+        for(sys_user sys_user : list){
+            Map<String,String> map = new HashMap<>();
+            map.put("id",sys_user.getId().toString());
+            map.put("name",sys_user.getName());
+            map.put("password",sys_user.getPassword());
+            mapList.add(map);
+        }
+        return mapList;
     }
 }
