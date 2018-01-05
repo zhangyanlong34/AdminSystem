@@ -17,8 +17,6 @@ public class sys_permission {
     @Column
     private String controller;
 
-    @Column
-    private Integer value;
 
     @ManyToMany(mappedBy = "permissions")
     private List<sys_role> roles;
@@ -48,13 +46,6 @@ public class sys_permission {
         this.controller = controller;
     }
 
-    public Integer getValue() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
 
     public List<sys_role> getRoles() {
         return roles;

@@ -8,15 +8,17 @@ import com.zyl.adminsystem.Config.AuthType;
 import com.zyl.adminsystem.Config.RequestType;
 import com.zyl.adminsystem.Entity.sys_role;
 import com.zyl.adminsystem.Entity.sys_user;
+import com.zyl.adminsystem.Entity.sys_user_role;
 import com.zyl.adminsystem.Service.UserService;
 import com.zyl.adminsystem.Tools.JwtTools;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -28,8 +30,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/login")
     public Object login(@RequestParam("username") String username,@RequestParam("password") String password){
-        if(username.equals("admin")&&password.equals("123456")){
             sys_user user = userService.findUserByName(username);
+        if(password.equals(user.getPassword())){
             List<sys_role> roleList = user.getRoles();
             StringBuffer stringBuffer = new StringBuffer();
             roleList.forEach(sys_role -> {
@@ -62,16 +64,33 @@ public class UserController {
     @RequestType(AuthType.SELECT)
     @RequestMapping("/findAll")
     @ResponseBody
-    public Object findAllPermission(){
-        List<sys_user> list = userService.findAll();
-        List<Map> mapList = new ArrayList<Map>();
-        for(sys_user sys_user : list){
-            Map<String,String> map = new HashMap<>();
-            map.put("id",sys_user.getId().toString());
-            map.put("name",sys_user.getName());
-            map.put("password",sys_user.getPassword());
-            mapList.add(map);
-        }
-        return mapList;
+    public Object findAllUser(@RequestParam("page") int page,@RequestParam("pageSize") int pageSize){
+        Pageable pageable = new PageRequest(page,pageSize);
+        Page<sys_user> results = userService.findAll(pageable);
+        int count = results.getTotalPages();
+        List<sys_user> list = results.getContent();
+        list.forEach(sys_user -> sys_user.setRoles(null));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("count",count);
+        jsonObject.put("data",JSONObject.toJSONString(list));
+        return jsonObject;
     }
+
+    @RequestType(AuthType.SELECT)
+    @RequestMapping("/validatorUsername")
+    @ResponseBody
+    public Object validatorUsername(@RequestParam("name") String username){
+        sys_user sys_user = userService.findUserByName(username);
+        return null==sys_user?"1":"0";
+    }
+
+    @RequestType(AuthType.INSERT)
+    @RequestMapping("/save")
+    @ResponseBody
+    public Object save(@RequestParam("name") String username,@RequestParam("password")String password,@RequestParam("roles")String roles){
+        userService.save(username,password,roles);
+        return null;
+    }
+
+
 }

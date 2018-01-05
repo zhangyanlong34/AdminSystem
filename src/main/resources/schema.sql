@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS `sys_permission` (
   `id` INT(10) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) DEFAULT NULL,
   `controller` VARCHAR(255) DEFAULT NULL ,
-  `value` INT(4),
   PRIMARY KEY (`id`)
 );
 
@@ -32,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `sys_role_permission` (
   `id` INT(10) NOT NULL AUTO_INCREMENT,
   `role_id` INT(10) NOT NULL ,
   `permission_id` INT(10) NOT NULL ,
+  `value` INT(4),
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_permission_role` FOREIGN KEY (`permission_id`) REFERENCES `sys_role` (`id`),
   CONSTRAINT `FK_role_permission` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`)
