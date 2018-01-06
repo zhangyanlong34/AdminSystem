@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void save(String username, String password, String roles) {
         sys_user sys_user = new sys_user();
         sys_user.setName(username);
@@ -50,11 +50,23 @@ public class UserServiceImpl implements UserService{
             Arrays.asList(roles.split(",")).stream().forEach(role_id->{
                 sys_user_role user_role = new sys_user_role();
                 user_role.setRole_id(Integer.parseInt(role_id));
-                user_role.setUser_id(user_id);
+                user_role.setUserId(user_id);
                 userRoleList.add(user_role);
             });
             userRoleRepository.save(userRoleList);
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(int id) {
+        userRepository.delete(id);
+        userRoleRepository.deleteByUserId(id);
+    }
+
+    @Override
+    public sys_user update(sys_user user) {
+        return userRepository.saveAndFlush(user);
     }
 
 }

@@ -11,4 +11,8 @@ public interface UserService {
     Page<sys_user> findAll(Pageable pageable);
 
     void save(String username,String password,String roles);
+
+    void delete(int id);
+
+    sys_user update(sys_user user);
 }

@@ -1,15 +1,18 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/zyl
+    url: jdbc:mysql://localhost:3306/zyl?useUnicode=true&amp;characterEncoding=utf-8
     username: root
     password: liuxizyl
     type: com.alibaba.druid.pool.DruidDataSource
+    sql-script-encoding: utf-8
   jpa:
     database: MYSQL
     show-sql: true
     hibernate:
       ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect

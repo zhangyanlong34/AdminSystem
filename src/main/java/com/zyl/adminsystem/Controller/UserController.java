@@ -1,21 +1,17 @@
 package com.zyl.adminsystem.Controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zyl.adminsystem.Common.ResponseMessage;
 import com.zyl.adminsystem.Config.AuthType;
 import com.zyl.adminsystem.Config.RequestType;
 import com.zyl.adminsystem.Entity.sys_role;
 import com.zyl.adminsystem.Entity.sys_user;
-import com.zyl.adminsystem.Entity.sys_user_role;
 import com.zyl.adminsystem.Service.UserService;
 import com.zyl.adminsystem.Tools.JwtTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -91,6 +87,24 @@ public class UserController {
         userService.save(username,password,roles);
         return null;
     }
+
+    @RequestType(AuthType.DELETE)
+    @RequestMapping("/delete")
+    @ResponseBody
+    public Object delete(@RequestParam("id") String id){
+        int user_id = Integer.parseInt(id);
+        userService.delete(user_id);
+        return null;
+    }
+
+    @RequestType(AuthType.UPDATE)
+    @RequestMapping("/update")
+    @ResponseBody
+    public Object update(@RequestBody sys_user sys_user){
+        userService.update(sys_user);
+        return null;
+    }
+
 
 
 }

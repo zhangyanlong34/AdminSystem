@@ -10,8 +10,8 @@ public class sys_user_role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
-    private Integer user_id;
+    @Column(name="user_id")
+    private Integer userId;
 
     @Column
     private Integer role_id;
@@ -24,12 +24,12 @@ public class sys_user_role {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getRole_id() {
