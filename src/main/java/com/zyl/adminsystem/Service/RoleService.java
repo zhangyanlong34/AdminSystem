@@ -10,4 +10,6 @@ import java.util.List;
 public interface RoleService {
     Page<sys_role> findAll(Pageable pageable);
     List<sys_role> findAll();
+
+    void save(String name, String permission);
 }

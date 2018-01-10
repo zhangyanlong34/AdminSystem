@@ -26,8 +26,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/login")
     public Object login(@RequestParam("username") String username,@RequestParam("password") String password){
-            sys_user user = userService.findUserByName(username);
-        if(password.equals(user.getPassword())){
+        sys_user user = userService.findUserByName(username);
+        if(null!=user && password.equals(user.getPassword())){
             List<sys_role> roleList = user.getRoles();
             StringBuffer stringBuffer = new StringBuffer();
             roleList.forEach(sys_role -> {

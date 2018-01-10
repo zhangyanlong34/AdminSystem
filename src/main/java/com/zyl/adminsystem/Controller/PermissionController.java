@@ -37,6 +37,8 @@ public class PermissionController {
         }
         int count = results.getTotalPages();
         List<sys_permission> list = results.getContent();
+        list.forEach(sys_permission -> sys_permission.setRoles(null));
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("count",count);
         jsonObject.put("data", JSON.toJSONString(list));

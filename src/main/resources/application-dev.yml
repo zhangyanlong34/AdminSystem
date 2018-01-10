@@ -16,3 +16,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+  cache:
+    ehcache:
+      config: classpath:config/ehcache.xml
