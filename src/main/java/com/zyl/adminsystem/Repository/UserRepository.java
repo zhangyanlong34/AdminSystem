@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<sys_user,Integer> {
 
     @CacheEvict(key = "#p0.name")
     sys_user save(sys_user user);
+
 }

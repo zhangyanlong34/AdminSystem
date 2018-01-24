@@ -1,9 +1,11 @@
 package com.zyl.adminsystem.Controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zyl.adminsystem.Common.ResponseMessage;
 import com.zyl.adminsystem.Config.AuthType;
 import com.zyl.adminsystem.Config.RequestType;
+import com.zyl.adminsystem.Entity.sys_permission;
 import com.zyl.adminsystem.Entity.sys_role;
 import com.zyl.adminsystem.Entity.sys_user;
 import com.zyl.adminsystem.Service.UserService;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
@@ -105,6 +108,17 @@ public class UserController {
         return null;
     }
 
+    @RequestType(AuthType.SELECT)
+    @RequestMapping("/findMenu")
+    @ResponseBody
+    public Object findMenu(HttpServletRequest request){
+        String role_id = request.getAttribute("role_id").toString();
+        System.out.println("role_id="+role_id);
+        List<sys_permission> list = userService.findMenu(role_id);
+        list.forEach( sys_permission -> sys_permission.setRoles(null));
+        System.out.println(JSON.toJSONString(list));
+        return JSON.toJSONString(list);
+    }
 
 
 }

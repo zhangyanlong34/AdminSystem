@@ -1,8 +1,10 @@
 package com.zyl.adminsystem.Service;
 
+import com.zyl.adminsystem.Entity.sys_permission;
 import com.zyl.adminsystem.Entity.sys_role;
 import com.zyl.adminsystem.Entity.sys_user;
 import com.zyl.adminsystem.Entity.sys_user_role;
+import com.zyl.adminsystem.Repository.PermissionRepository;
 import com.zyl.adminsystem.Repository.UserRepository;
 import com.zyl.adminsystem.Repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRoleRepository userRoleRepository;
 
+    @Autowired
+    private PermissionRepository permissionRepository;
 
     @Override
     public sys_user findUserByName(String name) {
@@ -67,6 +71,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public sys_user update(sys_user user) {
         return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public List<sys_permission> findMenu(String role_id) {
+        return permissionRepository.findPermissionByRoleId(role_id);
     }
 
 }
